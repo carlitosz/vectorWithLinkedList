@@ -10,9 +10,9 @@ using namespace std;
 //Program Execution Begins Here
 int main(int argc, char** argv) {
     //Declare an object and place in the linked list
-    Object obj(1);
+    Object front(1);
     LinkedList<Object> *lnkList;
-    lnkList = new LinkedList<Object>(obj);
+    lnkList = new LinkedList<Object>(front);
     // SimpleVector<Object> *simpleVec;
     // simpleVec = new SimpleVector<Object>;
 
@@ -24,18 +24,24 @@ int main(int argc, char** argv) {
     Object beginning(1);
     lnkList->addFrst(beginning);
 
+    // Add data before
+    Object before(1);
+    lnkList->addBefore(end, before);
+
+    // Add data after
+    Object after(1);
+    lnkList->addAfter(beginning, after);
+
     //Print the entire list after adding to it
     lnkList->prntLst();
 
     // Test.
     cout << "The object " << beginning << "is found at link: " << lnkList->findLst(beginning) << endl << endl;
     cout << "The object " << end << "is found at link: " << lnkList->findLst(end) << endl << endl;
-
-    // //Test the object return
-    // cout << "The 6th element in the List at index 5 is " << simpleVec->printElementAt(5);
+    cout << "The object " << before << "should be before " << end << endl << endl;
+    cout << "The object " << after << "should be after " << beginning << endl << endl;
 
     //Deallocate memory
-    // delete simpleVec;
     delete lnkList;
 
     //Exit
