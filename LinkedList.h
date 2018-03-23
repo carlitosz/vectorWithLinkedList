@@ -75,19 +75,19 @@ void LinkedList<T>::endLst(){
     }while(temp!=NULL);     //Your done when you hit the end
 }
 
-// Function Add a link before another link.
-// Input->before - The target link.
-// Input->value - The value to be added.
+// Function Add some 'data' before a 'link'
+// Input->link - The target link.
+// Input->data - The data to be added.
 // Output->nothing.
 template<class T>
-void LinkedList<T>::addBefore(const T before, T value) {
+void LinkedList<T>::addBefore(const T data, const T link) {
     Link *previous = NULL;
     temp = front;
 
     for (int i = 0; temp!= NULL; ++i, temp = temp->linkPtr) {
-        if (temp->data == before) {
+        if (temp->data == link) {
             Link *add = new Link;       // Create new link
-            add->data = value;          // Add data.
+            add->data = data;          // Add data.
             add->linkPtr = temp;        // Point to the next link.
             previous->linkPtr = add;    // Point previous to new link.
 
@@ -97,33 +97,33 @@ void LinkedList<T>::addBefore(const T before, T value) {
     }
 }
 
-// Function Add a link after another link.
-// Input->after - The target link.
-// Input->value - The value to be added.
+// Function Add some 'data' after a 'link'
+// Input->link - The target link.
+// Input->data - The data to be added.
 // Output-> nothing.
 template<class T>
-void LinkedList<T>::addAfter(const T after, const T value) {
+void LinkedList<T>::addAfter(const T data, const T link) {
     temp = front;
 
     for (int i = 0; temp != NULL; ++i, temp = temp->linkPtr) {
-        if (temp->data == after) {
+        if (temp->data == link) {
             Link *add = new Link;             // Create new link
-            add->data = value;              // Add data.
-            add->linkPtr = temp->linkPtr;   // Point to the next link.
-            temp->linkPtr = add;            // Point temp to new link.
+            add->data = data;                 // Add data.
+            add->linkPtr = temp->linkPtr;     // Point to the next link.
+            temp->linkPtr = add;              // Point temp to new link.
 
             return;
         }
     }
 }
 
-// Function Add a link and data to the front of the list
-// Input-> value - The value to be added.
+// Function Add some 'data' at the beginning.
+// Input-> data - The data to be added.
 // output-> Nothing.
 template<class T>
-void LinkedList<T>::addFrst(const T value) {
+void LinkedList<T>::addFrst(const T data) {
     Link *add = new Link;   // Create new link
-    add->data = value;      // Add data
+    add->data = data;      // Add data
     add->linkPtr = front;   // Point it to the current front of the list
     front = add;            // Point the front to the new link
 }

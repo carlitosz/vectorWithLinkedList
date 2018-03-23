@@ -10,118 +10,44 @@ template <class T>
 class SimpleVector
 {
 private:
-    T *aptr;          // To point to the allocated array
-    int arraySize;    // Number of elements in the array
+    LinkedList<T> *aptr;          // To point to the allocated array
     void memError();  // Handles memory allocation errors
     void subError();  // Handles subscripts out of range
 
 public:
     // Default constructor
-    SimpleVector() { aptr = 0; arraySize = 0;}
+    SimpleVector() { aptr = NULL; }
 
     // Constructor declaration
-    SimpleVector(int);
-
-    // Copy constructor declaration
-    SimpleVector(const SimpleVector &);
+    SimpleVector(const T &data) {
+        try { aptr = new LinkedList<T>(data); } catch (bad_alloc) { memError(); }
+    }
 
     // Destructor declaration
-    ~SimpleVector();
+    ~SimpleVector() { delete aptr; }
 
-    // Accessor to return the array size
-    int size() const
-       { return arraySize; }
+    // Accessor to return the list size
+    int size() const { return aptr->cntList(); }
+
+    // Push some 'data' before a 'link'
+    void pushBefore(const T &data, const T &link) { aptr->addBefore(data, link); }
+
+    // Push some 'data' after a 'link'
+    void pushAfter(const T &data, const T &link) { aptr->addAfter(data, link); }
 
     //Augments the size of the vector by 1 to include the new value.
-    void push(T newValue) {
-        aptr = new T [++arraySize];
-        if (aptr == 0) {
-            memError();
-        }
-
-        aptr[arraySize - 1] = newValue;
-    }
+    void push(T newValue) { aptr->addLst(newValue); }
 
     // Prints the vector
-    void printVec() {
-        cout << endl << "The beginning of the List" << endl;
-        
-        for (int i = 0; i < arraySize; ++i) {
-            cout << aptr[i] << endl;
-        }
-
-        cout << "The End of the List" << endl << endl;
-    }
+    void printVec() { aptr->prntLst(); }
 
     // Accessor to return a specific element
-    int getElementAt(const T &findMe);
-
-    T printElementAt(int sub) {
-        if (sub < 0 || sub >= arraySize) {
-            subError();
-        }
-
-        return aptr[sub];
-    }
+    int getElementAt(const T &findMe) { return aptr->findLst(findMe); }
 
     // Overloaded [] operator declaration
     T &operator[](const int &);
 };
 
-//***********************************************************
-// Constructor for SimpleVector class. Sets the size of the *
-// array and allocates memory for it.                       *
-//***********************************************************
-
-template <class T>
-SimpleVector<T>::SimpleVector(int s)
-{
-    arraySize = s;
-    // Allocate memory for the array.
-    try
-    {
-      aptr = new T [s];
-    }
-    catch (bad_alloc)
-    {
-      memError();
-    }
-
-    // Initialize the array.
-    for (int count = 0; count < arraySize; count++)
-      *(aptr + count) = 0;
-}
-
-//*******************************************
-// Copy Constructor for SimpleVector class. *
-//*******************************************
-
-template <class T>
-SimpleVector<T>::SimpleVector(const SimpleVector &obj)
-{
-    // Copy the array size.
-    arraySize = obj.arraySize;
-
-    // Allocate memory for the array.
-    aptr = new T [arraySize];
-    if (aptr == 0)
-      memError();
-      
-    // Copy the elements of obj's array.
-    for(int count = 0; count < arraySize; count++)
-      *(aptr + count) = *(obj.aptr + count);
-}
-
-//**************************************
-// Destructor for SimpleVector class.  *
-//**************************************
-
-template <class T>
-SimpleVector<T>::~SimpleVector()
-{
-    if (arraySize > 0)
-      delete [] aptr;
-}
 
 //*******************************************************
 // memError function. Displays an error message and     *
@@ -147,36 +73,4 @@ void SimpleVector<T>::subError()
     exit(EXIT_FAILURE);
 }
 
-//*******************************************************
-// getElementAt function. The argument is the data.     *
-// This function returns the index value where the      *
-// data is stored.                                      *
-//*******************************************************
-
-template <class T>
-int SimpleVector<T>::getElementAt(const T &findMe)
-{
-    for (int i = 0; i < arraySize; ++i) {
-        if (aptr[i] == findMe) {
-            cout << "FOUND!" << endl;
-            return i;
-        }
-    }
-
-    return -1; // Not found return -1
-}
-
-//*******************************************************
-// Overloaded [] operator. The argument is a subscript. *
-// This function returns a reference to the element     *
-// in the array indexed by the subscript.               *
-//*******************************************************
-
-template <class T>
-T &SimpleVector<T>::operator[](const int &sub)
-{
-    if (sub < 0 || sub >= arraySize)
-      subError();
-    return aptr[sub];
-}
 #endif
