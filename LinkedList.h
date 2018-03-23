@@ -16,6 +16,7 @@ class LinkedList{
         ~LinkedList();
         void prntLst();          //Print each data element in the list
         void  addLst(const T&);  //Add data at the end of the list
+        void addFrst(const T&);  //Add data at the beginning of the list.
         int  findLst(const T&);  //Determine what link contains the data
         int   cntLst();          //How many elements are in the list
         T     getObj(int);       //Return the object
@@ -70,6 +71,17 @@ void LinkedList<T>::endLst(){
         end=temp;          //Point to the current link with a swap
         temp=temp->linkPtr; //Point to the next link
     }while(temp!=NULL);     //Your done when you hit the end
+}
+
+// Function Add a link and data to the front of the list
+// Input-> front - The address to the front of the list
+// output-> Nothing.
+template<class T>
+void LinkedList<T>::addFrst(const T &value) {
+    Link *add = new Link;   // Create new link
+    add->data = value;      // Add data
+    add->linkPtr = front;   // Point it to the current front of the list
+    front = add;            // Point the front to the new link
 }
 
 //Function Add a link and data to the end of the list
